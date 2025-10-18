@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import Dashboard from "./components/Dashboard";
+import History from "./components/History";
+import Profile from "./components/Profile";
 
 const mockUser = {
   name: "John Doe",
   email: "john.doe@example.com",
-  avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZHvxVgtGqrVGGf2LV8KrkfdEMmudzlVXH_7oxnIvkpy_6y0vdrjPE8wjUYUfQkIM_Q1g&usqp=CAU",
+  avatarUrl:
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZHvxVgtGqrVGGf2LV8KrkfdEMmudzlVXH_7oxnIvkpy_6y0vdrjPE8wjUYUfQkIM_Q1g&usqp=CAU",
 };
 
 const mockHistory = [
@@ -19,7 +23,10 @@ export default function App({ onBack }) {
   const [history] = useState(mockHistory);
   const [espConnected, setEspConnected] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [presentData, setPresentData] = useState({ heartRate: 72, stressLevel: 0.3 });
+  const [presentData, setPresentData] = useState({
+    heartRate: 72,
+    stressLevel: 0.3,
+  });
   const [alertMsg, setAlertMsg] = useState(null);
 
   useEffect(() => {
@@ -30,11 +37,11 @@ export default function App({ onBack }) {
       setPresentData({ heartRate: newHeartRate, stressLevel: newStress });
       setEspConnected(Math.random() > 0.1);
 
-      if (newStress > 0.7) {
-        setAlertMsg("⚠️ Stress level is abnormally high! Please relax.");
-      } else {
-        setAlertMsg(null);
-      }
+      setAlertMsg(
+        newStress > 0.7
+          ? "⚠️ Stress level is abnormally high! Please relax."
+          : null
+      );
     }, 5000);
 
     return () => clearInterval(interval);
@@ -47,6 +54,7 @@ export default function App({ onBack }) {
 
   return (
     <div className="app">
+      {/* ===== SIDEBAR ===== */}
       <aside className="sidebar">
         <div className="profile-section">
           <img src={user.avatarUrl} alt="User Avatar" className="avatar" />
@@ -57,24 +65,15 @@ export default function App({ onBack }) {
         </div>
 
         <nav className="sidebar-nav">
-          <button
-            className={activeTab === "dashboard" ? "active" : ""}
-            onClick={() => setActiveTab("dashboard")}
-          >
-            Dashboard
-          </button>
-          <button
-            className={activeTab === "history" ? "active" : ""}
-            onClick={() => setActiveTab("history")}
-          >
-            History
-          </button>
-          <button
-            className={activeTab === "profile" ? "active" : ""}
-            onClick={() => setActiveTab("profile")}
-          >
-            Profile
-          </button>
+          {["dashboard", "history", "profile"].map((tab) => (
+            <button
+              key={tab}
+              className={activeTab === tab ? "active" : ""}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
         </nav>
 
         <button className="logout-button" onClick={onBack}>
@@ -82,62 +81,21 @@ export default function App({ onBack }) {
         </button>
       </aside>
 
+      {/* ===== MAIN CONTENT ===== */}
       <main className="main-content">
-        {activeTab === "dashboard" && (
-          <>
-            <h1>Dashboard</h1>
-            {alertMsg && <div className="alert-message">{alertMsg}</div>}
-
-            <div className="status-cards">
-              <div className="card">
-                <h3>Heart Rate</h3>
-                <p className="value">{presentData.heartRate} bpm</p>
-              </div>
-
-              <div className="card">
-                <h3>Stress Level</h3>
-                <p className="value">{(presentData.stressLevel * 100).toFixed(0)}%</p>
-              </div>
-
-              <div className={`card esp-status ${espConnected ? "connected" : "offline"}`}>
-                <h3>ESP32 Connection</h3>
-                <p className="value">{espConnected ? "Connected" : "Offline"}</p>
-              </div>
-            </div>
-          </>
-        )}
-
-        {activeTab === "history" && (
-          <>
-            <h1>History</h1>
-            <ul className="history-list">
-              {history.map((entry, idx) => (
-                <li key={idx} className="history-item">
-                  <div className="timestamp">{entry.timestamp}</div>
-                  <div>HR: <span>{entry.heartRate}</span> bpm</div>
-                  <div>Stress: <span>{(entry.stressLevel * 100).toFixed(0)}%</span></div>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-
-        {activeTab === "profile" && (
-          <>
-            <h1>Edit Profile</h1>
-            <form className="profile-form" onSubmit={(e) => e.preventDefault()}>
-              <label>
-                Name:
-                <input type="text" name="name" value={user.name} onChange={handleProfileChange} />
-              </label>
-              <label>
-                Email:
-                <input type="email" name="email" value={user.email} onChange={handleProfileChange} />
-              </label>
-              <button>Save Changes</button>
-            </form>
-          </>
-        )}
+        <div className="content-wrapper fade-in">
+          {activeTab === "dashboard" && (
+            <Dashboard
+              presentData={presentData}
+              espConnected={espConnected}
+              alertMsg={alertMsg}
+            />
+          )}
+          {activeTab === "history" && <History history={history} />}
+          {activeTab === "profile" && (
+            <Profile user={user} handleProfileChange={handleProfileChange} />
+          )}
+        </div>
       </main>
     </div>
   );

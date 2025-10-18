@@ -1,0 +1,57 @@
+.main-content {
+  flex-grow: 1;
+  padding: 30px 40px;
+  background: #0e0e12; /* match page background, no box */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.status-cards {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: #1c1c28; /* keep cards dark but flat */
+  border-radius: 12px;
+  padding: 25px 30px;
+  flex: 1 1 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* subtle shadow */
+  text-align: center;
+  color: #e4e4e4;
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #3b82f6;
+}
+
+.value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #06b6d4;
+}
+
+.esp-status.connected .value {
+  color: #27ae60;
+}
+
+.esp-status.offline .value {
+  color: #f87171;
+}
+
+.alert-message {
+  background-color: #3b1e1e;
+  color: #f87171;
+  border: 1px solid #f87171;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
