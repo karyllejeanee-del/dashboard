@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Landing from "./Landing";
+import { useState } from "react";
 import App from "./App";
+import Landing from "./Landing";
 
 export default function Root() {
   const [showDashboard, setShowDashboard] = useState(false);
@@ -10,7 +10,7 @@ export default function Root() {
       {showDashboard ? (
         <App onBack={() => setShowDashboard(false)} />
       ) : (
-        <Landing onStart={() => setShowDashboard(true)} />
+        <Landing onStartMonitoring={() => setShowDashboard(true)} />
       )}
     </>
   );
