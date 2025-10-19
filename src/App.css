@@ -1,13 +1,93 @@
 body {
   margin: 0;
-  font-family: "Segoe UI", Tahoma, sans-serif; /* landing page font */
-  background: #0e0e12; /* dark background like landing page */
-  color: #e4e4e4; /* light text */
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #0e0e12;
+  color: #e4e4e4;
 }
 
+/* === MAIN LAYOUT === */
 .app {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
-  background: #0e0e12; /* match landing page dark bg */
+  min-height: 100vh;
+  background: #0e0e12;
+}
+
+/* === SIDEBAR === */
+aside {
+  width: 250px;
+  background: #111118;
+  color: #e4e4e4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-right: 1px solid #1f1f27;
+}
+
+aside img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+aside h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+aside p {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+/* Nav buttons */
+aside button {
+  width: 100%;
+  background: #1c1c24;
+  color: #e4e4e4;
+  border: none;
+  padding: 8px 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+aside button:hover {
+  background: #2a2a38;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+  flex: 1;
+  background: #0e0e12;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.content-wrapper {
+  background: #111118;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

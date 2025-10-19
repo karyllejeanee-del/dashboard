@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import History from "./components/History";
 import Profile from "./components/Profile";
 
+
 const mockUser = {
   name: "John Doe",
   email: "john.doe@example.com",
