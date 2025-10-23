@@ -1,264 +1,232 @@
+import { useEffect, useState } from "react";
 import "./Profile.css";
 
-import { useState } from "react";
-import "./Profile.css";
-
-const Profile = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "+1 (555) 123-4567",
-    dob: "1990-05-15",
-    location: "San Francisco, CA",
-    bloodType: "O+",
-    height: "5'10\"",
-    weight: "165 lbs",
-    emergencyContact: "Jane Doe - +1 (555) 987-6543",
+export default function Profile({ user, handleProfileChange, theme }) {
+  const [profile, setProfile] = useState(() => {
+    const saved = localStorage.getItem("profileData");
+    return (
+      JSON.parse(saved) || {
+        fullName: user?.name || "John Doe",
+        email: user?.email || "john.doe@example.com",
+        phone: "+1 (555) 123-4567",
+        birthDate: "1990-05-15",
+        location: "San Francisco, CA",
+        bloodType: "O+",
+        height: "5'10\"",
+        weight: "165 lbs",
+        emergencyContact: "Jane Doe - +1 (555) 987-6543",
+        avatar: user?.avatarUrl || "",
+        conditions: ["Hypertension", "Asthma"],
+        goals: [
+          { text: "Exercise daily", progress: 70 },
+          { text: "Maintain healthy diet", progress: 50 },
+        ],
+      }
+    );
   });
 
-  const [conditions, setConditions] = useState([
-    "Hypertension",
-    "Anxiety",
-    "Asthma",
-  ]);
+  const [editing, setEditing] = useState(false);
   const [newCondition, setNewCondition] = useState("");
+  const [newGoal, setNewGoal] = useState("");
 
-  const [goals] = useState([
-    { title: "Maintain resting heart rate below 70 bpm", progress: 85 },
-    { title: "Reduce daily stress by 20%", progress: 60 },
-    { title: "Exercise 30 minutes daily", progress: 92 },
-  ]);
+  // Save locally and sync with parent user
+  useEffect(() => {
+    localStorage.setItem("profileData", JSON.stringify(profile));
+    handleProfileChange({
+      target: { name: "name", value: profile.fullName },
+    });
+  }, [profile, handleProfileChange]);
 
   const handleChange = (e) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEditToggle = () => {
+    if (editing) alert("Profile saved successfully ✅");
+    setEditing(!editing);
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () =>
+      setProfile((prev) => ({ ...prev, avatar: reader.result }));
+    reader.readAsDataURL(file);
   };
 
   const handleAddCondition = () => {
-    if (newCondition && !conditions.includes(newCondition)) {
-      setConditions([...conditions, newCondition]);
+    if (newCondition.trim()) {
+      setProfile((prev) => ({
+        ...prev,
+        conditions: [...prev.conditions, newCondition.trim()],
+      }));
       setNewCondition("");
     }
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    alert("Profile saved successfully ✅");
+  const handleAddGoal = () => {
+    if (newGoal.trim()) {
+      setProfile((prev) => ({
+        ...prev,
+        goals: [...prev.goals, { text: newGoal.trim(), progress: 0 }],
+      }));
+      setNewGoal("");
+    }
+  };
+
+  const handleRemoveCondition = (i) => {
+    setProfile((prev) => ({
+      ...prev,
+      conditions: prev.conditions.filter((_, idx) => idx !== i),
+    }));
+  };
+
+  const handleRemoveGoal = (i) => {
+    setProfile((prev) => ({
+      ...prev,
+      goals: prev.goals.filter((_, idx) => idx !== i),
+    }));
   };
 
   return (
-    <div className="profile-root">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Profile</h2>
-        <button
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className={`profile-btn ${isEditing ? "save" : ""}`}
-        >
-          {isEditing ? "Save Profile" : "Edit Profile"}
+    <div className={`profile-page ${theme}`}>
+      <div className="profile-header">
+        <h2>Profile</h2>
+        <p>Manage your personal and health information</p>
+        <button className="edit-btn" onClick={handleEditToggle}>
+          {editing ? "Save Changes" : "Edit Profile"}
         </button>
       </div>
 
-      <p className="text-gray-400 mb-4">
-        Manage your personal and health information
-      </p>
-
-      {/* Top Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-        {/* Left Card */}
-        <div className="profile-card flex flex-col items-center text-center">
-          <div className="profile-avatar">{profile.name.charAt(0)}</div>
-          <h3 className="text-lg font-semibold">{profile.name}</h3>
-          <p className="text-gray-400">{profile.email}</p>
-
-          <div className="flex gap-2 mt-2">
-            <span className="badge green">Active User</span>
-            <span className="badge blue">Premium</span>
+      <div className="profile-container">
+        <div className="left-panel">
+          <div className="avatar">
+            {profile.avatar ? (
+              <img src={profile.avatar} alt="Profile" className="avatar-img" />
+            ) : (
+              <div className="circle">{profile.fullName.charAt(0)}</div>
+            )}
+            {editing && (
+              <label className="upload-btn">
+                Change Photo
+                <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
+              </label>
+            )}
+            <h3>{profile.fullName}</h3>
+            <p>{profile.email}</p>
           </div>
 
-          <div className="mt-4 text-gray-400 text-sm space-y-1">
+          <div className="info">
             <p>📍 {profile.location}</p>
-            <p>🎂 Born {new Date(profile.dob).toLocaleDateString()}</p>
+            <p>🎂 {profile.birthDate}</p>
           </div>
         </div>
 
-        {/* Right Card */}
-        <div className="profile-card">
-          <h3 className="mb-2 text-gray-300">Personal Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <label className="text-sm text-gray-400">Full Name</label>
-              <input
-                type="text"
-                name="name"
-                disabled={!isEditing}
-                value={profile.name}
-                onChange={handleChange}
-                className="profile-input"
-              />
-            </div>
-            <div>
-              <label className="text-sm text-gray-400">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                disabled={!isEditing}
-                value={profile.email}
-                onChange={handleChange}
-                className="profile-input"
-              />
-            </div>
-            <div>
-              <label className="text-sm text-gray-400">Phone Number</label>
-              <input
-                type="text"
-                name="phone"
-                disabled={!isEditing}
-                value={profile.phone}
-                onChange={handleChange}
-                className="profile-input"
-              />
-            </div>
-            <div>
-              <label className="text-sm text-gray-400">Date of Birth</label>
-              <input
-                type="date"
-                name="dob"
-                disabled={!isEditing}
-                value={profile.dob}
-                onChange={handleChange}
-                className="profile-input"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="text-sm text-gray-400">Location</label>
-              <input
-                type="text"
-                name="location"
-                disabled={!isEditing}
-                value={profile.location}
-                onChange={handleChange}
-                className="profile-input"
-              />
-            </div>
+        <div className="right-panel">
+          <div className="section">
+            <h4>Personal Information</h4>
+            {["fullName", "email", "phone", "birthDate", "location"].map((field) => (
+              <div key={field} className="input-group">
+                <label>
+                  {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}
+                </label>
+                <input
+                  name={field}
+                  value={profile[field]}
+                  onChange={handleChange}
+                  disabled={!editing}
+                  type={field === "birthDate" ? "date" : "text"}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="section">
+            <h4>Medical Information</h4>
+            {["bloodType", "height", "weight", "emergencyContact"].map((field) => (
+              <div key={field} className="input-group">
+                <label>
+                  {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}
+                </label>
+                <input
+                  name={field}
+                  value={profile[field]}
+                  onChange={handleChange}
+                  disabled={!editing}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="section">
+            <h4>Health Conditions</h4>
+            <ul className="condition-list">
+              {profile.conditions.map((cond, i) => (
+                <li key={i}>
+                  {cond}
+                  {editing && <button onClick={() => handleRemoveCondition(i)}>✖</button>}
+                </li>
+              ))}
+            </ul>
+            {editing && (
+              <div className="input-row">
+                <input
+                  placeholder="Add condition..."
+                  value={newCondition}
+                  onChange={(e) => setNewCondition(e.target.value)}
+                />
+                <button onClick={handleAddCondition}>Add</button>
+              </div>
+            )}
+          </div>
+
+          <div className="section">
+            <h4>Health Goals</h4>
+            {profile.goals.map((goal, i) => (
+              <div key={i} className="goal">
+                <div className="goal-header">
+                  <span>{goal.text}</span>
+                  <span>{goal.progress}%</span>
+                </div>
+                <div className="goal-bar">
+                  <div
+                    className="goal-progress"
+                    style={{
+                      width: `${goal.progress}%`,
+                      background:
+                        goal.progress > 80
+                          ? "#16a34a"
+                          : goal.progress > 50
+                          ? "#eab308"
+                          : "#ef4444",
+                    }}
+                  />
+                </div>
+                {editing && (
+                  <button
+                    className="remove-goal"
+                    onClick={() => handleRemoveGoal(i)}
+                  >
+                    ✖
+                  </button>
+                )}
+              </div>
+            ))}
+            {editing && (
+              <div className="input-row">
+                <input
+                  placeholder="Add new goal..."
+                  value={newGoal}
+                  onChange={(e) => setNewGoal(e.target.value)}
+                />
+                <button onClick={handleAddGoal}>Add</button>
+              </div>
+            )}
           </div>
         </div>
-      </div>
-
-      {/* Medical Information */}
-      <div className="profile-card mb-4">
-        <h3 className="mb-2 text-gray-300">Medical Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div>
-            <label className="text-sm text-gray-400">Blood Type</label>
-            <input
-              type="text"
-              name="bloodType"
-              disabled={!isEditing}
-              value={profile.bloodType}
-              onChange={handleChange}
-              className="profile-input"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-gray-400">Height</label>
-            <input
-              type="text"
-              name="height"
-              disabled={!isEditing}
-              value={profile.height}
-              onChange={handleChange}
-              className="profile-input"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-gray-400">Weight</label>
-            <input
-              type="text"
-              name="weight"
-              disabled={!isEditing}
-              value={profile.weight}
-              onChange={handleChange}
-              className="profile-input"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-gray-400">Emergency Contact</label>
-            <input
-              type="text"
-              name="emergencyContact"
-              disabled={!isEditing}
-              value={profile.emergencyContact}
-              onChange={handleChange}
-              className="profile-input"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Health Conditions */}
-      <div className="profile-card mb-4">
-        <h3 className="text-gray-300 mb-2">Health Conditions</h3>
-        <div className="space-y-2">
-          {conditions.map((cond, index) => (
-            <div
-              key={index}
-              className="text-sm bg-gray-800 p-2 rounded-md border border-gray-700"
-            >
-              {cond}
-            </div>
-          ))}
-          {isEditing && (
-            <div className="flex gap-2 mt-2">
-              <input
-                type="text"
-                placeholder="Add condition or Other..."
-                value={newCondition}
-                onChange={(e) => setNewCondition(e.target.value)}
-                className="profile-input flex-1"
-              />
-              <button
-                onClick={handleAddCondition}
-                className="profile-btn px-4 py-2"
-              >
-                Add
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Health Goals */}
-      <div className="profile-card">
-        <h3 className="text-gray-300 mb-2">Health Goals</h3>
-        <p className="text-gray-400 text-sm mb-4">
-          Track your progress towards your health objectives
-        </p>
-
-        {goals.map((goal, index) => (
-          <div key={index} className="mb-3">
-            <div className="flex justify-between mb-1">
-              <span className="text-sm">{goal.title}</span>
-              <span className="text-xs text-gray-400">{goal.progress}%</span>
-            </div>
-            <div className="goal-bar-bg">
-              <div
-                className="goal-bar-fill"
-                style={{
-                  width: `${goal.progress}%`,
-                  background:
-                    goal.progress > 80
-                      ? "#16a34a"
-                      : goal.progress > 50
-                      ? "#eab308"
-                      : "#ef4444",
-                }}
-              ></div>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
-};
-
-export default Profile;
+}

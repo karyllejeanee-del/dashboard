@@ -105,9 +105,9 @@ export default function App({ onBack }) {
             />
           )}
           {activeTab === "history" && <History history={history} />}
-          {activeTab === "profile" && (
-            <Profile user={user} handleProfileChange={handleProfileChange} />
-          )}
+         {activeTab === "profile" && (
+  <Profile user={user} handleProfileChange={handleProfileChange} />
+)}
           {activeTab === "settings" && (
             <Settings theme={theme} setTheme={setTheme} />
           )}

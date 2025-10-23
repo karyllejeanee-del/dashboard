@@ -1,101 +1,190 @@
-:root {
-  --bg: #0b0c10;
-  --card: #111217;
-}
-
-.profile-root {
-  background-color: var(--bg);
-  color: #e6e6e6;
+.root{
+.profile-page {
+  color: #fff;
+  background: #0e0e12;
+  padding: 30px 40px;
+  border-radius: 12px;
   min-height: 100vh;
-  padding: 24px;
-  font-family: "Inter", sans-serif;
 }
 
-.profile-card {
-  background: var(--card);
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-header p {
+  color: #aaa;
+}
+
+.edit-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+}
+
+.left-panel {
+  background: #1a1a1d;
+  padding: 20px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 16px;
+  text-align: center;
 }
 
-.profile-avatar {
-  width: 64px;
-  height: 64px;
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #2563eb;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: bold;
-  margin-bottom: 8px;
+  color: white;
 }
 
-.profile-input {
-  background: #1a1c22;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  padding: 6px 8px;
-  color: #e6e6e6;
+.avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-btn {
+  margin-top: 10px;
+  background: #333;
+  color: #ddd;
   font-size: 14px;
-  width: 100%;
-}
-
-.profile-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-}
-
-.profile-btn {
-  background: #3b82f6;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.2s ease;
+}
+.upload-btn:hover {
+  background: #444;
 }
 
-.profile-btn:hover {
+.info {
+  margin-top: 15px;
+  color: #ccc;
+}
+
+.right-panel .section {
+  background: #1a1a1d;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.input-group input {
+  padding: 8px;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 5px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 8px;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 5px;
+}
+
+.input-row button {
   background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.profile-btn.save {
-  background: #10b981;
+.condition-list {
+  list-style: none;
+  padding: 0;
 }
 
-.profile-btn.save:hover {
-  background: #059669;
+.condition-list li {
+  background: #222;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.goal-bar-bg {
-  background: #1a1c22;
-  border-radius: 999px;
+.goal {
+  margin-top: 10px;
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.goal-bar {
+  background: #222;
   height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.goal-bar-fill {
+.goal-progress {
   height: 100%;
-  border-radius: 999px;
-  transition: width 0.3s ease;
 }
 
-.badge {
-  display: inline-block;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 12px;
-  font-weight: 600;
+.remove-goal {
+  background: transparent;
+  color: red;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 5px;
 }
-
-.badge.green {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
-}
-
-.badge.blue {
-  background: rgba(37, 99, 235, 0.2);
-  color: #60a5fa;
 }
