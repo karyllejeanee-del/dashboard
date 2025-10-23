@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import AIAnalysis from "./components/AIAnalysis"; // ✅ FIXED: Import added
+import AIAnalysis from "./components/AIAnalysis";
 import Dashboard from "./components/Dashboard";
 import Help from "./components/Help";
 import History from "./components/History";
@@ -45,22 +45,19 @@ export default function App({ onBack }) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Simulate data updates
+  // Simulate real-time data updates
   useEffect(() => {
     const interval = setInterval(() => {
       const newHeartRate = 65 + Math.floor(Math.random() * 20);
       const newStress = +(Math.random() * 1).toFixed(2);
-
       setPresentData({ heartRate: newHeartRate, stressLevel: newStress });
       setEspConnected(Math.random() > 0.1);
-
       setAlertMsg(
         newStress > 0.7
           ? "⚠️ Stress level is abnormally high! Please relax."
           : null
       );
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -70,7 +67,7 @@ export default function App({ onBack }) {
   };
 
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
       {/* ===== SIDEBAR ===== */}
       <aside className="sidebar">
         <div className="profile-section">
@@ -100,9 +97,11 @@ export default function App({ onBack }) {
           ))}
         </nav>
 
-        <button className="logout-button" onClick={onBack}>
-          Logout
-        </button>
+        <div className="logout-container">
+          <button className="logout-button" onClick={onBack}>
+            Logout
+          </button>
+        </div>
       </aside>
 
       {/* ===== MAIN CONTENT ===== */}
@@ -115,9 +114,7 @@ export default function App({ onBack }) {
               alertMsg={alertMsg}
             />
           )}
-
           {activeTab === "history" && <History history={history} />}
-
           {activeTab === "profile" && (
             <Profile
               user={user}
@@ -125,13 +122,10 @@ export default function App({ onBack }) {
               theme={theme}
             />
           )}
-
           {activeTab === "settings" && (
             <Settings theme={theme} setTheme={setTheme} />
           )}
-
           {activeTab === "help" && <Help />}
-
           {activeTab === "aiAnalysis" && (
             <AIAnalysis deviceData={presentData} />
           )}

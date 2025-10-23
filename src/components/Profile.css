@@ -1,10 +1,19 @@
-
 .profile-page {
-  color: #fff;
-  background: #0e0e12;
   padding: 30px 40px;
   border-radius: 12px;
   min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* THEME COLORS */
+.profile-page.dark {
+  background: #0e0e12;
+  color: #fff;
+}
+
+.profile-page.light {
+  background: #f8f8fc;
+  color: #111;
 }
 
 .profile-header {
@@ -12,10 +21,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
-}
-
-.profile-header h2 {
-  margin-bottom: 5px;
 }
 
 .profile-header p {
@@ -32,6 +37,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .edit-btn:hover {
   background: #1d4ed8;
 }
@@ -42,11 +48,21 @@
   gap: 20px;
 }
 
+/* === LEFT PANEL === */
 .left-panel {
-  background: #1a1a1d;
-  padding: 20px;
   border-radius: 10px;
+  padding: 20px;
   text-align: center;
+  transition: background 0.3s;
+}
+
+.profile-page.dark .left-panel {
+  background: #1a1a1d;
+}
+
+.profile-page.light .left-panel {
+  background: #ffffff;
+  border: 1px solid #ddd;
 }
 
 .avatar {
@@ -55,24 +71,31 @@
   align-items: center;
 }
 
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .circle {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background: #2563eb;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 32px;
+  color: #fff;
   font-weight: bold;
-  color: white;
 }
 
-.avatar-img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
+.email-text {
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 5px;
+  word-break: break-all;
 }
 
 .upload-btn {
@@ -84,31 +107,38 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
 .upload-btn:hover {
   background: #444;
 }
 
 .info {
   margin-top: 15px;
+  font-size: 14px;
   color: #ccc;
 }
 
-.right-panel .section {
-  background: #1a1a1d;
-  padding: 20px;
+/* === RIGHT PANEL === */
+.section {
   border-radius: 10px;
+  padding: 20px;
   margin-bottom: 20px;
+  transition: background 0.3s;
+}
+
+.profile-page.dark .section {
+  background: #1a1a1d;
+}
+
+.profile-page.light .section {
+  background: #fff;
+  border: 1px solid #ddd;
 }
 
 .input-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px 15px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
 }
 
 .input-group label {
@@ -119,10 +149,35 @@
 
 .input-group input {
   padding: 8px;
-  background: #111;
-  border: 1px solid #333;
-  color: white;
   border-radius: 5px;
+  border: 1px solid #333;
+  background: #111;
+  color: white;
+}
+
+.profile-page.light .input-group input {
+  background: #f8f8f8;
+  color: #111;
+  border: 1px solid #ccc;
+}
+
+/* === HEALTH CONDITIONS === */
+.condition-list {
+  list-style: none;
+  padding: 0;
+}
+
+.condition-list li {
+  background: #222;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-page.light .condition-list li {
+  background: #f0f0f0;
 }
 
 .input-row {
@@ -134,10 +189,16 @@
 .input-row input {
   flex: 1;
   padding: 8px;
-  background: #111;
-  border: 1px solid #333;
-  color: white;
   border-radius: 5px;
+  border: 1px solid #333;
+  background: #111;
+  color: white;
+}
+
+.profile-page.light .input-row input {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ccc;
 }
 
 .input-row button {
@@ -149,22 +210,7 @@
   cursor: pointer;
 }
 
-.condition-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.condition-list li {
-  background: #222;
-  padding: 6px 10px;
-  border-radius: 5px;
-  margin: 5px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
+/* === GOALS === */
 .goal {
   margin-top: 12px;
 }
@@ -172,7 +218,6 @@
 .goal-header {
   display: flex;
   justify-content: space-between;
-  color: #ccc;
   font-size: 14px;
 }
 
@@ -182,6 +227,10 @@
   border-radius: 4px;
   overflow: hidden;
   margin-top: 4px;
+}
+
+.profile-page.light .goal-bar {
+  background: #e0e0e0;
 }
 
 .goal-progress {
