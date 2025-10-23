@@ -29,10 +29,9 @@ export default function Profile({ user, handleProfileChange, theme }) {
   const [newCondition, setNewCondition] = useState("");
   const [newGoal, setNewGoal] = useState("");
 
-  // Save locally and sync with parent user
   useEffect(() => {
     localStorage.setItem("profileData", JSON.stringify(profile));
-    handleProfileChange({
+    handleProfileChange?.({
       target: { name: "name", value: profile.fullName },
     });
   }, [profile, handleProfileChange]);
@@ -43,7 +42,7 @@ export default function Profile({ user, handleProfileChange, theme }) {
   };
 
   const handleEditToggle = () => {
-    if (editing) alert("Profile saved successfully ✅");
+    if (editing) alert("✅ Profile saved successfully!");
     setEditing(!editing);
   };
 
@@ -93,14 +92,17 @@ export default function Profile({ user, handleProfileChange, theme }) {
   return (
     <div className={`profile-page ${theme}`}>
       <div className="profile-header">
-        <h2>Profile</h2>
-        <p>Manage your personal and health information</p>
+        <div>
+          <h2>Profile</h2>
+          <p>Manage your personal and health information</p>
+        </div>
         <button className="edit-btn" onClick={handleEditToggle}>
           {editing ? "Save Changes" : "Edit Profile"}
         </button>
       </div>
 
       <div className="profile-container">
+        {/* LEFT PANEL */}
         <div className="left-panel">
           <div className="avatar">
             {profile.avatar ? (
@@ -111,7 +113,12 @@ export default function Profile({ user, handleProfileChange, theme }) {
             {editing && (
               <label className="upload-btn">
                 Change Photo
-                <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  hidden
+                />
               </label>
             )}
             <h3>{profile.fullName}</h3>
@@ -124,40 +131,51 @@ export default function Profile({ user, handleProfileChange, theme }) {
           </div>
         </div>
 
+        {/* RIGHT PANEL */}
         <div className="right-panel">
           <div className="section">
             <h4>Personal Information</h4>
-            {["fullName", "email", "phone", "birthDate", "location"].map((field) => (
-              <div key={field} className="input-group">
-                <label>
-                  {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}
-                </label>
-                <input
-                  name={field}
-                  value={profile[field]}
-                  onChange={handleChange}
-                  disabled={!editing}
-                  type={field === "birthDate" ? "date" : "text"}
-                />
-              </div>
-            ))}
+            <div className="input-grid">
+              {["fullName", "email", "phone", "birthDate", "location"].map(
+                (field) => (
+                  <div key={field} className="input-group">
+                    <label>
+                      {field.charAt(0).toUpperCase() +
+                        field.slice(1).replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      name={field}
+                      value={profile[field]}
+                      onChange={handleChange}
+                      disabled={!editing}
+                      type={field === "birthDate" ? "date" : "text"}
+                    />
+                  </div>
+                )
+              )}
+            </div>
           </div>
 
           <div className="section">
             <h4>Medical Information</h4>
-            {["bloodType", "height", "weight", "emergencyContact"].map((field) => (
-              <div key={field} className="input-group">
-                <label>
-                  {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}
-                </label>
-                <input
-                  name={field}
-                  value={profile[field]}
-                  onChange={handleChange}
-                  disabled={!editing}
-                />
-              </div>
-            ))}
+            <div className="input-grid">
+              {["bloodType", "height", "weight", "emergencyContact"].map(
+                (field) => (
+                  <div key={field} className="input-group">
+                    <label>
+                      {field.charAt(0).toUpperCase() +
+                        field.slice(1).replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      name={field}
+                      value={profile[field]}
+                      onChange={handleChange}
+                      disabled={!editing}
+                    />
+                  </div>
+                )
+              )}
+            </div>
           </div>
 
           <div className="section">
@@ -166,7 +184,9 @@ export default function Profile({ user, handleProfileChange, theme }) {
               {profile.conditions.map((cond, i) => (
                 <li key={i}>
                   {cond}
-                  {editing && <button onClick={() => handleRemoveCondition(i)}>✖</button>}
+                  {editing && (
+                    <button onClick={() => handleRemoveCondition(i)}>✖</button>
+                  )}
                 </li>
               ))}
             </ul>

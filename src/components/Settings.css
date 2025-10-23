@@ -1,79 +1,86 @@
-/* === LIGHT & DARK THEMES === */
-body.dark {
-  background: #0e0e12;
-  color: #f5f5f5;
+:root {
+  --bg: #0b0b0e;
+  --card: #111217;
+  --muted: #9aa0a6;
+  --accent: #3b82f6;
+  --accent2: #06b6d4;
+  --border: rgba(255, 255, 255, 0.05);
 }
 
-body.light {
-  background: #f9f9fb;
-  color: #111;
-}
-
-/* === SETTINGS PAGE === */
+/* === PAGE LAYOUT === */
 .settings-container {
-  padding: 40px 60px;
+  padding: 40px 50px;
+  color: #e6e6e6;
+  background: var(--bg);
+  min-height: 100vh;
+  box-sizing: border-box;
   font-family: "Inter", sans-serif;
-  max-width: 900px;
-  margin: 0 auto;
-  animation: fadeIn 0.4s ease-in;
 }
 
-h1 {
-  font-size: 1.8rem;
-  margin-bottom: 5px;
+.settings-container h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .subtext {
-  color: #a0a0a0;
-  margin-bottom: 30px;
-}
-
-/* === SETTINGS SECTIONS === */
-.settings-section {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 20px 25px;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 4px;
   margin-bottom: 25px;
-  transition: background 0.3s ease;
 }
 
-/* LIGHT MODE FIX */
-body.light .settings-section {
-  background: #fff;
-  color: #111;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+/* === SETTINGS CARD === */
+.settings-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.settings-section:hover {
+  transform: translateY(-2px);
 }
 
 .settings-section h2 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .settings-section p {
-  color: #a0a0a0;
-  font-size: 0.9rem;
+  color: var(--muted);
+  font-size: 13px;
   margin-bottom: 15px;
 }
 
-/* === EACH SETTING ITEM === */
+/* === SETTING ITEM === */
 .setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid #222;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.setting-item:last-child {
-  border-bottom: none;
+.setting-item:first-child {
+  border-top: none;
 }
 
-/* === SWITCH (Toggle Button) === */
+.setting-item span {
+  font-size: 14px;
+  color: #e6e6e6;
+}
+
+/* === SWITCH === */
 .switch {
   position: relative;
   display: inline-block;
-  width: 42px;
-  height: 22px;
+  width: 48px;
+  height: 26px;
 }
 
 .switch input {
@@ -84,113 +91,147 @@ body.light .settings-section {
 
 .slider {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #555;
+  inset: 0;
+  background-color: #1a1b22;
+  border-radius: 30px;
   transition: 0.3s;
-  border-radius: 22px;
 }
 
 .slider:before {
   content: "";
   position: absolute;
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
+  background-color: #fff;
   border-radius: 50%;
+  transition: 0.3s;
 }
 
 input:checked + .slider {
-  background-color: #007bff;
+  background-color: var(--accent);
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(22px);
 }
 
-/* === SLIDER RANGE === */
+/* === SLIDER INPUTS === */
 .slider-container {
-  margin-top: 15px;
+  margin: 15px 0;
+}
+
+.slider-container label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
 }
 
 .slider-container input[type="range"] {
   width: 100%;
-  margin-top: 5px;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
-/* === DROPDOWN === */
+/* === DROPDOWNS === */
 .dropdown {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+  margin-top: 15px;
+}
+
+.dropdown label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 6px;
 }
 
 .dropdown select {
-  background: #1f1f28;
-  color: white;
-  border: 1px solid #333;
-  padding: 6px 10px;
+  background: #1a1b22;
+  color: #e6e6e6;
+  border: 1px solid var(--border);
   border-radius: 6px;
-  outline: none;
-  transition: border 0.2s, background 0.2s;
+  padding: 8px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
 }
 
 .dropdown select:hover {
-  background: #252531;
-  border-color: #555;
-}
-
-/* LIGHT MODE DROPDOWN FIX */
-body.light .dropdown select {
-  background: #f0f0f0;
-  color: #111;
-  border-color: #ccc;
+  border-color: var(--accent);
 }
 
 /* === DANGER ZONE === */
 .danger-zone {
-  border: 1px solid #a00;
+  background: #180c0c;
+  border: 1px solid rgba(239, 68, 68, 0.2);
   border-radius: 12px;
-  background: #1b0e0e;
-  padding: 20px 25px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.danger-zone h2 {
+  color: #ef4444;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .danger-btn {
-  background: transparent;
-  border: 1px solid #ff4d4d;
-  color: #ff4d4d;
-  padding: 10px 16px;
+  display: inline-block;
+  background: #450a0a;
+  color: #ef4444;
+  border: none;
   border-radius: 8px;
+  padding: 8px 12px;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
   margin-right: 10px;
-  transition: 0.2s;
+  margin-top: 6px;
+  transition: 0.3s;
 }
 
 .danger-btn:hover {
-  background: #ff4d4d;
-  color: white;
+  background: #7f1d1d;
+  transform: translateY(-2px);
 }
 
-/* === ANIMATION === */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* === THEME SUPPORT === */
+body.light {
+  --bg: #f9fafb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --accent2: #0ea5e9;
+  --border: rgba(0, 0, 0, 0.1);
+  color: #111827;
+}
+
+body.light .settings-container {
+  color: #111827;
+}
+
+body.light .settings-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+body.light .slider {
+  background-color: #d1d5db;
 }
 
 /* === RESPONSIVE === */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .settings-container {
     padding: 25px 20px;
+  }
+  .settings-section {
+    padding: 16px;
+  }
+  .danger-btn {
+    width: 100%;
+    margin: 8px 0;
   }
 }

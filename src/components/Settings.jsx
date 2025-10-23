@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Settings.css";
 
-export default function Settings() {
+export default function Settings({ theme, setTheme }) {
   const [heartRateAlert, setHeartRateAlert] = useState(false);
   const [stressLevelAlert, setStressLevelAlert] = useState(false);
   const [activityReminder, setActivityReminder] = useState(false);
@@ -20,10 +20,8 @@ export default function Settings() {
   const [locationTracking, setLocationTracking] = useState(false);
   const [dataRetention, setDataRetention] = useState("30 days");
 
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "Dark");
   const [language, setLanguage] = useState("English");
 
-  // === APPLY THEME DYNAMICALLY ===
   useEffect(() => {
     document.body.className = theme.toLowerCase();
     localStorage.setItem("theme", theme);
@@ -34,7 +32,7 @@ export default function Settings() {
       <h1>Settings</h1>
       <p className="subtext">Manage your app preferences and configurations</p>
 
-      {/* Notifications */}
+      {/* 🔔 Notifications */}
       <section className="settings-section">
         <h2>🔔 Notifications</h2>
         <p>Configure how and when you receive alerts</p>
@@ -59,7 +57,7 @@ export default function Settings() {
         ))}
       </section>
 
-      {/* Alert Thresholds */}
+      {/* ⚙️ Thresholds */}
       <section className="settings-section">
         <h2>⚙️ Alert Thresholds</h2>
         <p>Customize when you receive health alerts</p>
@@ -87,7 +85,7 @@ export default function Settings() {
         </div>
       </section>
 
-      {/* Device Settings */}
+      {/* 📱 Device Settings */}
       <section className="settings-section">
         <h2>📱 Device Settings</h2>
         {[
@@ -109,7 +107,7 @@ export default function Settings() {
         ))}
       </section>
 
-      {/* Privacy */}
+      {/* 🔒 Privacy */}
       <section className="settings-section">
         <h2>🔒 Privacy & Security</h2>
         {[
@@ -143,14 +141,17 @@ export default function Settings() {
         </div>
       </section>
 
-      {/* Appearance */}
+      {/* 🎨 Appearance */}
       <section className="settings-section">
         <h2>🎨 Appearance</h2>
         <div className="dropdown">
           <label>Theme</label>
-          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-            <option>Dark</option>
-            <option>Light</option>
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value.toLowerCase())}
+          >
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
           </select>
         </div>
 
@@ -163,7 +164,7 @@ export default function Settings() {
         </div>
       </section>
 
-      {/* Danger Zone */}
+      {/* ⚠️ Danger Zone */}
       <section className="danger-zone">
         <h2>⚠️ Danger Zone</h2>
         <button className="danger-btn">Clear All Health Data</button>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import AIAnalysis from "./components/AIAnalysis"; // ✅ FIXED: Import added
 import Dashboard from "./components/Dashboard";
+import Help from "./components/Help";
 import History from "./components/History";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
@@ -31,17 +33,19 @@ export default function App({ onBack }) {
   const [alertMsg, setAlertMsg] = useState(null);
   const [theme, setTheme] = useState("dark");
 
-  // Save theme preference
+  // Load saved theme
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) setTheme(savedTheme);
   }, []);
 
+  // Apply theme
   useEffect(() => {
     document.body.className = theme;
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // Simulate data updates
   useEffect(() => {
     const interval = setInterval(() => {
       const newHeartRate = 65 + Math.floor(Math.random() * 20);
@@ -78,13 +82,20 @@ export default function App({ onBack }) {
         </div>
 
         <nav className="sidebar-nav">
-          {["dashboard", "history", "profile", "settings"].map((tab) => (
+          {[
+            { id: "dashboard", label: "Dashboard" },
+            { id: "aiAnalysis", label: "AI Analysis" },
+            { id: "history", label: "History" },
+            { id: "profile", label: "Profile" },
+            { id: "settings", label: "Settings" },
+            { id: "help", label: "Help" },
+          ].map((tab) => (
             <button
-              key={tab}
-              className={activeTab === tab ? "active" : ""}
-              onClick={() => setActiveTab(tab)}
+              key={tab.id}
+              className={activeTab === tab.id ? "active" : ""}
+              onClick={() => setActiveTab(tab.id)}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab.label}
             </button>
           ))}
         </nav>
@@ -104,12 +115,25 @@ export default function App({ onBack }) {
               alertMsg={alertMsg}
             />
           )}
+
           {activeTab === "history" && <History history={history} />}
-         {activeTab === "profile" && (
-  <Profile user={user} handleProfileChange={handleProfileChange} />
-)}
+
+          {activeTab === "profile" && (
+            <Profile
+              user={user}
+              handleProfileChange={handleProfileChange}
+              theme={theme}
+            />
+          )}
+
           {activeTab === "settings" && (
             <Settings theme={theme} setTheme={setTheme} />
+          )}
+
+          {activeTab === "help" && <Help />}
+
+          {activeTab === "aiAnalysis" && (
+            <AIAnalysis deviceData={presentData} />
           )}
         </div>
       </main>

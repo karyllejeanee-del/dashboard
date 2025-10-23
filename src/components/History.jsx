@@ -1,4 +1,3 @@
-import "./History.css";
 
 import { useMemo, useState } from "react";
 import "./History.css";

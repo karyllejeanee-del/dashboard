@@ -1,0 +1,240 @@
+:root {
+  --bg: #0b0b0e;
+  --card: #111217;
+  --muted: #9aa0a6;
+  --accent: #3b82f6;
+  --border: rgba(255, 255, 255, 0.05);
+}
+
+/* === CONTAINER === */
+.help-root {
+  padding: 40px 50px;
+  color: #e6e6e6;
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* HEADER */
+h2 {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+/* === SEARCH BOX === */
+.search-box {
+  margin-bottom: 25px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 420px;
+  background: #1a1b22;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #e6e6e6;
+  font-size: 15px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* === SUPPORT GRID === */
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Force 2 per row */
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+.support-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.support-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.support-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.support-card p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.support-card button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.support-card button:hover {
+  background: #2563eb;
+}
+
+/* === FAQ GRID === */
+.faq-section {
+  margin-top: 10px;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 per row */
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.faq-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.faq-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.faq-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+.faq-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.faq-card li {
+  margin-bottom: 12px;
+}
+
+/* === FAQ QUESTION STYLING === */
+.faq-question {
+  color: #e6e6e6;
+  font-size: 14.5px;
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.faq-question:hover {
+  color: var(--accent);
+}
+
+.faq-question.active {
+  color: var(--accent);
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+}
+
+.faq-answer {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 2px solid var(--accent);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === QUICK TIPS BOX === */
+.tips-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  margin-top: 35px;
+}
+
+.tips-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.tips-box {
+  background: #1a1b22;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.tips-box ul {
+  list-style: disc;
+  margin-left: 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tips-box li {
+  margin-bottom: 8px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 800px) {
+  .help-root {
+    padding: 25px 20px;
+  }
+
+  .support-grid,
+  .faq-grid {
+    grid-template-columns: 1fr; /* Stack on small screens */
+  }
+
+  .support-card,
+  .faq-card {
+    padding: 16px;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+}
