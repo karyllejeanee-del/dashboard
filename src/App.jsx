@@ -3,7 +3,7 @@ import "./App.css";
 import Dashboard from "./components/Dashboard";
 import History from "./components/History";
 import Profile from "./components/Profile";
-
+import Settings from "./components/Settings";
 
 const mockUser = {
   name: "John Doe",
@@ -29,6 +29,18 @@ export default function App({ onBack }) {
     stressLevel: 0.3,
   });
   const [alertMsg, setAlertMsg] = useState(null);
+  const [theme, setTheme] = useState("dark");
+
+  // Save theme preference
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    document.body.className = theme;
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,7 +78,7 @@ export default function App({ onBack }) {
         </div>
 
         <nav className="sidebar-nav">
-          {["dashboard", "history", "profile"].map((tab) => (
+          {["dashboard", "history", "profile", "settings"].map((tab) => (
             <button
               key={tab}
               className={activeTab === tab ? "active" : ""}
@@ -95,6 +107,9 @@ export default function App({ onBack }) {
           {activeTab === "history" && <History history={history} />}
           {activeTab === "profile" && (
             <Profile user={user} handleProfileChange={handleProfileChange} />
+          )}
+          {activeTab === "settings" && (
+            <Settings theme={theme} setTheme={setTheme} />
           )}
         </div>
       </main>
