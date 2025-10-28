@@ -122,10 +122,10 @@ export default function Profile({ user, handleProfileChange, theme }) {
               </label>
             )}
             <h3>{profile.fullName}</h3>
-            <p>{profile.email}</p>
           </div>
 
           <div className="info">
+            <p>{profile.email}</p>
             <p>📍 {profile.location}</p>
             <p>🎂 {profile.birthDate}</p>
           </div>
