@@ -50,14 +50,20 @@
 
 /* === LEFT PANEL === */
 .left-panel {
-  border-radius: 10px;
-  padding: 20px;
+ border-radius: 20px;
+  padding: 30px;
   text-align: center;
   transition: background 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* align items to the top */
+  align-items: center;          /* center items horizontally */
+  gap: 8px;
 }
 
 .profile-page.dark .left-panel {
   background: #1a1a1d;
+  
 }
 
 .profile-page.light .left-panel {
@@ -69,6 +75,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .avatar-img {
@@ -96,6 +103,7 @@
   color: #bbb;
   margin-top: 5px;
   word-break: break-all;
+  text-align: center;
 }
 
 .upload-btn {
@@ -113,9 +121,14 @@
 }
 
 .info {
-  margin-top: 15px;
+  margin-top: 22px;
   font-size: 14px;
   color: #ccc;
+  text-align: center;  /* center the text */
+  line-height: 1.2;    /* prevent lines from colliding or appearing stacked */
+  display: block;      /* ensure centering takes effect consistently */
+  white-space: normal; /* allow wrapping instead of overlapping */
+  padding: 44px;
 }
 
 /* === RIGHT PANEL === */
@@ -246,3 +259,4 @@
   cursor: pointer;
   margin-top: 5px;
 }
+
